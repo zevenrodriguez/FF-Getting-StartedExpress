@@ -3,9 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var hbs = require('hbs');//added
+const fs = require('fs');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
+// var indexRouter = require('./routes/index');
+// var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -19,8 +22,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
+
+//Registering Partials
+hbs.registerPartials(path.join(__dirname, 'views', 'partials'))
+hbs.registerPartial('partial_name', 'partial value');
+
+
+
+/* GET home page. */
+app.get('/', function (req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
